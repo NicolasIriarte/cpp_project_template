@@ -10,7 +10,7 @@ option(ENABLE_SANITIZER_ADDRESS "Enable address sanitizer" OFF)
 option(ENABLE_SANITIZER_MEMORY "Enable memory sanitizer" OFF)
 option(ENABLE_SANITIZER_UNDEFINED_BEHAVIOR "Enable undefined behavior sanitizer" OFF)
 option(ENABLE_SANITIZER_THREAD "Enable thread sanitizer" OFF)
-option(ENABLE_TESTING "Enable Test Builds" ON)
+option(ENABLE_PROJECT_TESTING "Enable Test Builds" ON)
 option(EXTRA_GCC_WARNINGS "Add extra GCC warnings not supported by Clang" OFF)
 option(WARNINGS_AS_ERRORS "Treat compiler warnings as errors" ON)
 
@@ -32,15 +32,10 @@ target_compile_features(project_options INTERFACE cxx_std_17)
 enable_sanitizers(project_options)
 enable_precompiled_headers(project_options)
 
-if (ENABLE_TESTING)
-    enable_testing()
-    include(GoogleTest)
-    add_subdirectory(test)
-endif()
-
 add_subdirectory(libs)
 
 add_executable(intro src/main.cpp)
+
 target_link_libraries(intro 
     PRIVATE 
         project_options project_warnings
@@ -52,3 +47,9 @@ install(TARGETS intro
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib
 )
+
+if (ENABLE_PROJECT_TESTING)
+    enable_testing()
+    include(GoogleTest)
+    add_subdirectory(test)
+endif()

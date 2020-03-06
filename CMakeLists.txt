@@ -38,12 +38,7 @@ if (ENABLE_TESTING)
     add_subdirectory(test)
 endif()
 
-add_library(math src/Math/Factorial.cpp)
-target_include_directories(math PUBLIC include)
-target_link_libraries(math 
-    PRIVATE 
-        project_options project_warnings
-)
+add_subdirectory(libs)
 
 add_executable(intro src/main.cpp)
 target_link_libraries(intro 
@@ -53,12 +48,6 @@ target_link_libraries(intro
 )
 
 install(TARGETS intro
-    RUNTIME DESTINATION bin
-    LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib
-)
-
-install(TARGETS math
     RUNTIME DESTINATION bin
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib

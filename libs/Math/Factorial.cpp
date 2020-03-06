@@ -1,7 +1,7 @@
 #include <stdexcept>
 #include <string>
 
-#include <Math/Factorial.hpp>
+#include "Factorial.hpp"
 
 namespace math {
 

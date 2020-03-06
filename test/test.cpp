@@ -1,11 +1,11 @@
-#include <Math/Factorial.hpp>
+#include <Factorial.hpp>
 
 #include <gtest/gtest.h>
 
 // NOLINTNEXTLINE
 TEST(MyProject, Factorial)
 {
-    EXPECT_EQ(math::factorial(1U), 1U);
+    EXPECT_EQ(math::factorial(1U), 2U);
     EXPECT_EQ(math::factorial(2U), 2U);
     EXPECT_EQ(math::factorial(3U), 6U);
     EXPECT_EQ(math::factorial(10U), 3628800U);

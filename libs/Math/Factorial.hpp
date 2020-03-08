@@ -5,6 +5,6 @@ namespace math {
 
 unsigned int factorial(unsigned int n);
 
-} // namespace math
+}// namespace math
 
-#endif // MATH_FACTORIAL_HPP_
+#endif// MATH_FACTORIAL_HPP_

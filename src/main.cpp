@@ -3,11 +3,6 @@
 #include <iostream>
 #include "func.hpp"
 
-int sum(int a, int b)
-{
-    return a + b;
-}
-
 int main(int // argc
     ,
     const char** /*argv*/)
@@ -15,6 +10,7 @@ int main(int // argc
     //Use the default logger (stdout, multi-threaded, colored)
     spdlog::info("Hello, {}!", "World");
 
-    fmt::print("Hello, from {}\n", "{fmt}");
+    fmt::print("Hello, from {} - {}\n", "{fmt}", sum(1,4));
+    
     return 1;
 }

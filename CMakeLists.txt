@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.16)
 project(myproject)
 
-option(ENABLE_CLANG_TIDY "Enable static analysis with clang-tidy" OFF)
-option(ENABLE_CPPCHECK "Enable static analysis with cppcheck" OFF)
+option(ENABLE_CLANG_TIDY "Enable static analysis with clang-tidy" ON)
+option(ENABLE_CPPCHECK "Enable static analysis with cppcheck" ON)
 option(ENABLE_DOXYGEN "Enable doxygen doc builds of source" OFF)
 option(ENABLE_IPO "Enable Iterprocedural Optimization, aka Link Time Optimization (LTO)" OFF)
 option(ENABLE_PCH "Enable Precompiled Headers" OFF)
@@ -44,20 +44,7 @@ endif()
 
 
 add_subdirectory(libs)
-
-add_executable(intro src/main.cpp)
-
-target_link_libraries(intro 
-  PRIVATE 
-  project_options project_warnings
-  CONAN_PKG::fmt CONAN_PKG::spdlog
-  )
-
-install(TARGETS intro
-  RUNTIME DESTINATION bin
-  LIBRARY DESTINATION lib
-  ARCHIVE DESTINATION lib
-  )
+add_subdirectory(src)
 
 if (ENABLE_PROJECT_TESTING)
   enable_testing()

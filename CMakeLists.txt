@@ -14,9 +14,14 @@ option(ENABLE_PROJECT_TESTING "Enable Test Builds" ON)
 option(EXTRA_GCC_WARNINGS "Add extra GCC warnings not supported by Clang" OFF)
 option(WARNINGS_AS_ERRORS "Treat compiler warnings as errors" ON)
 
+# Set up some extra Conan dependencies based on our needs
+# before loading Conan
+set(CONAN_EXTRA_REQUIRES "")
+set(CONAN_EXTRA_OPTIONS "")
+
 include(cmake/ProjectSettings.cmake)
 include(cmake/CompilerWarnings.cmake)
-include(cmake/PrecompiledHeaders.cmake)
+# include(cmake/PrecompiledHeaders.cmake)
 include(cmake/Sanitizers.cmake)
 include(cmake/StaticAnalyzers.cmake)
 include(cmake/Doxygen.cmake)
@@ -30,26 +35,32 @@ set_project_warnings(project_warnings)
 add_library(project_options INTERFACE)
 target_compile_features(project_options INTERFACE cxx_std_17)
 enable_sanitizers(project_options)
-enable_precompiled_headers(project_options)
+
+if (ENABLE_PCH)
+  # This sets a global PCH parameter, each project will build its own PCH, which
+  # is a good idea if any #define's change
+  target_precompile_headers(project_options INTERFACE <vector> <string> <map> <utility>)
+endif()
+
 
 add_subdirectory(libs)
 
 add_executable(intro src/main.cpp)
 
 target_link_libraries(intro 
-    PRIVATE 
-        project_options project_warnings
-        CONAN_PKG::fmt CONAN_PKG::spdlog
-)
+  PRIVATE 
+  project_options project_warnings
+  CONAN_PKG::fmt CONAN_PKG::spdlog
+  )
 
 install(TARGETS intro
-    RUNTIME DESTINATION bin
-    LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib
-)
+  RUNTIME DESTINATION bin
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+  )
 
 if (ENABLE_PROJECT_TESTING)
-    enable_testing()
-    include(GoogleTest)
-    add_subdirectory(test)
+  enable_testing()
+  include(GoogleTest)
+  add_subdirectory(test)
 endif()
